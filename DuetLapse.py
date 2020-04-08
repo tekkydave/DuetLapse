@@ -55,6 +55,7 @@ def init():
     parser.add_argument('-pause',type=str,nargs=1,choices= ['yes', 'no'],default=['no'])
     parser.add_argument('-movehead',type=float,nargs=2,default=[0.0,0.0])
     parser.add_argument('-weburl',type=str,nargs=1,default=[''])
+    parser.add_argument('-duetpw',type=str,nargs=1,default=[''])
     args=vars(parser.parse_args())
     global duet, camera, seconds, detect, pause, movehead, weburl
     duet     = args['duet'][0]
@@ -64,6 +65,7 @@ def init():
     pause    = args['pause'][0]
     movehead = args['movehead']
     weburl   = args['weburl'][0]
+    duetpw   = args['duetpw'][0]
 
     # Warn user if we havent' implemented something yet. 
     if ('dlsr' in camera):
@@ -137,11 +139,11 @@ def init():
 
     print('Attempting to connect to printer at '+duet)
     global printer
-    printer = DWA.DuetWebAPI('http://'+duet)
+    printer = DWA.DuetWebAPI('http://'+duet,duetpw)
     if (not printer.printerType()):
         print('Device at '+duet+' either did not respond or is not a Duet V2 or V3 printer.')
         exit(2)
-    printer = DWA.DuetWebAPI('http://'+duet)
+    printer = DWA.DuetWebAPI('http://'+duet,duetpw)
 
     print("Connected to a Duet V"+str(printer.printerType())+" printer at "+printer.baseURL())
 
