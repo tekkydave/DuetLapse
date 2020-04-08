@@ -199,7 +199,7 @@ def onePhoto():
     if ('pi' in camera): 
         cmd = 'raspistill -o '+fn
     if ('web' in camera): 
-        cmd = 'wget --auth-no-challenge -nv -O '+fn+' '+weburl
+        cmd = 'wget --auth-no-challenge -nv -O '+fn+' "'+weburl+'"'
 
     subprocess.call(cmd, shell=True)
     global timePriorPhoto
@@ -252,7 +252,7 @@ while(1):
     status=printer.getStatus()
 
     if (printerState == 0):     # Idle before print started. 
-        if ('processing' in status):
+        if ('processing' in status) or ('M' in status):
             print('Print start sensed.')
             print('End of print will be sensed, and frames will be converted into video.')
             printerState = 1
